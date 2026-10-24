@@ -23,7 +23,7 @@ Each tenant directory is self-contained: its `appproject.yaml` defines the tenan
 
 ## Before applying
 
-1. Update `https://github.com/cziesman/coreshift-control-plane.git` in `bootstrap/platform-project.yaml` and `bootstrap/root-app.yaml` if this repository is hosted elsewhere.
+1. Update `https://github.com/cziesman/tenant-gitops.git` in `bootstrap/platform-project.yaml` and `bootstrap/root-app.yaml` if this repository is hosted elsewhere.
 2. Confirm `farmers-dev` and `ranchers-dev` already exist and that the existing Argo CD application-controller service account has sufficient permissions in those namespaces.
 3. Replace the sample `https://github.com/argoproj/argocd-example-apps.git` repository/path with the actual tenant application sources when ready.
 4. Merge `argocd-operator/rbac-policy-fragment.yaml` into `spec.rbac` on the existing Operator-managed `ArgoCD` custom resource. Do not apply the fragment as a standalone resource, and do not have this root Application manage the `ArgoCD` custom resource.
