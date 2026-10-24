@@ -6,7 +6,7 @@ metadata:
 spec:
   description: Ranchers tenant applications
   sourceRepos:
-    - https://github.com/gitops-examples/getting-started.git
+    - 'https://github.com/gitops-examples/*'
   destinations:
     - server: https://kubernetes.default.svc
       namespace: ranchers-dev
