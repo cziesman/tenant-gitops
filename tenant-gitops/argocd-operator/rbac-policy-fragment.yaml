@@ -1,0 +1,14 @@
+# REFERENCE FRAGMENT ONLY. Merge into spec.rbac on the existing
+# Operator-managed ArgoCD CR; do not apply as a standalone ArgoCD object.
+rbac:
+  defaultPolicy: ""
+  scopes: '[groups]'
+  policy: |
+    g, system:cluster-admins, role:admin
+    g, cluster-admins, role:admin
+    g, OCP-NONPROD-IA-FARMERS-ADMIN, proj:farmers:admins
+    g, OCP-NONPROD-IA-FARMERS-DEVELOPER, proj:farmers:developers
+    g, OCP-NONPROD-IA-FARMERS-VIEWER, proj:farmers:members
+    g, OCP-NONPROD-WY-RANCHERS-ADMIN, proj:ranchers:admins
+    g, OCP-NONPROD-WY-RANCHERS-DEVELOPER, proj:ranchers:developers
+    g, OCP-NONPROD-WY-RANCHERS-VIEWER, proj:ranchers:members

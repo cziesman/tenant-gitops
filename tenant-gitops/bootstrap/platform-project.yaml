@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform
+  namespace: openshift-gitops
+spec:
+  description: Platform-owned tenant GitOps configuration
+  sourceRepos:
+    - https://github.com/cziesman/tenant-gitops.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: openshift-gitops
+  clusterResourceWhitelist: []
+  namespaceResourceWhitelist:
+    - group: argoproj.io
+      kind: AppProject
+    - group: argoproj.io
+      kind: Application

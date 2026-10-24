@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: ranchers
+  namespace: openshift-gitops
+spec:
+  description: Ranchers tenant applications
+  sourceRepos:
+    - https://github.com/gitops-examples/getting-started.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: ranchers-dev
+  clusterResourceWhitelist: []
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: Service
+    - group: ""
+      kind: ServiceAccount
+    - group: ""
+      kind: Secret
+    - group: apps
+      kind: Deployment
+    - group: apps
+      kind: ReplicaSet
+    - group: networking.k8s.io
+      kind: Ingress
+  roles:
+    - name: admins
+      description: Ranchers tenant administrators
+      groups:
+        - OCP-NONPROD-WY-RANCHERS-ADMIN
+      policies:
+        - p, proj:ranchers:admins, applications, *, ranchers/*, allow
+    - name: developers
+      description: View and sync Ranchers applications
+      groups:
+        - OCP-NONPROD-WY-RANCHERS-DEVELOPER
+      policies:
+        - p, proj:ranchers:developers, applications, get, ranchers/*, allow
+        - p, proj:ranchers:developers, applications, sync, ranchers/*, allow
+    - name: members
+      description: Read-only access to Ranchers applications
+      groups:
+        - OCP-NONPROD-WY-RANCHERS-VIEWER
+      policies:
+        - p, proj:ranchers:members, applications, get, ranchers/*, allow

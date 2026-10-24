@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: farmers
+  namespace: openshift-gitops
+spec:
+  description: Farmers tenant applications
+  sourceRepos:
+    - https://github.com/gitops-examples/getting-started.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: farmers-dev
+  clusterResourceWhitelist: []
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: Service
+    - group: ""
+      kind: ServiceAccount
+    - group: ""
+      kind: Secret
+    - group: apps
+      kind: Deployment
+    - group: apps
+      kind: ReplicaSet
+    - group: networking.k8s.io
+      kind: Ingress
+  roles:
+    - name: admins
+      description: Farmers tenant administrators
+      groups:
+        - OCP-NONPROD-IA-FARMERS-ADMIN
+      policies:
+        - p, proj:farmers:admins, applications, *, farmers/*, allow
+    - name: developers
+      description: View and sync Farmers applications
+      groups:
+        - OCP-NONPROD-IA-FARMERS-DEVELOPER
+      policies:
+        - p, proj:farmers:developers, applications, get, farmers/*, allow
+        - p, proj:farmers:developers, applications, sync, farmers/*, allow
+    - name: members
+      description: Read-only access to Farmers applications
+      groups:
+        - OCP-NONPROD-IA-FARMERS-VIEWER
+      policies:
+        - p, proj:farmers:members, applications, get, farmers/*, allow

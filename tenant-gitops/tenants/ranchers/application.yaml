@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bgd-ranchers
+  namespace: openshift-gitops
+spec:
+  project: ranchers
+  source:
+    repoURL: https://github.com/gitops-examples/getting-started.git
+    targetRevision: HEAD
+    path: bgd/base
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ranchers-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
