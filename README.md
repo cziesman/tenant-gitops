@@ -51,7 +51,7 @@ Use this naming convention:
 
 - `OCP` identifies groups intended for OpenShift.
 - `PROD` or `NONPROD` identifies the environment class. Use `NONPROD` without a hyphen.
-- `<REGION>` identifies the region, for example `IOWA` or `WYOMING`.
+- `<REGION>` identifies the region, for example `IA` or `WY`.
 - `<TEAM>` identifies the tenant, for example `FARMERS` or `RANCHERS`.
 - `<SCOPE>` is `ADMIN`, `DEVELOPER`, or `VIEWER`.
 
@@ -61,12 +61,12 @@ The example Applications target the non-production namespaces `farmers-dev` and 
 
 | Okta group | AppProject role | Effective permissions |
 |---|---|---|
-| `OCP-NONPROD-IOWA-FARMERS-ADMIN` | `proj:farmers:admins` | Manage Farmers applications |
-| `OCP-NONPROD-IOWA-FARMERS-DEVELOPER` | `proj:farmers:developers` | View and sync Farmers applications |
-| `OCP-NONPROD-IOWA-FARMERS-VIEWER` | `proj:farmers:members` | View Farmers applications |
-| `OCP-NONPROD-WYOMING-RANCHERS-ADMIN` | `proj:ranchers:admins` | Manage Ranchers applications |
-| `OCP-NONPROD-WYOMING-RANCHERS-DEVELOPER` | `proj:ranchers:developers` | View and sync Ranchers applications |
-| `OCP-NONPROD-WYOMING-RANCHERS-VIEWER` | `proj:ranchers:members` | View Ranchers applications |
+| `OCP-NONPROD-IA-FARMERS-ADMIN` | `proj:farmers:admins` | Manage Farmers applications |
+| `OCP-NONPROD-IA-FARMERS-DEVELOPER` | `proj:farmers:developers` | View and sync Farmers applications |
+| `OCP-NONPROD-IA-FARMERS-VIEWER` | `proj:farmers:members` | View Farmers applications |
+| `OCP-NONPROD-WY-RANCHERS-ADMIN` | `proj:ranchers:admins` | Manage Ranchers applications |
+| `OCP-NONPROD-WY-RANCHERS-DEVELOPER` | `proj:ranchers:developers` | View and sync Ranchers applications |
+| `OCP-NONPROD-WY-RANCHERS-VIEWER` | `proj:ranchers:members` | View Ranchers applications |
 
 A group applies to all clusters matching its environment-class and region segments. The group name does not identify one individual cluster. Cluster access is still constrained by the relevant AppProject destinations and the Argo CD installation on each cluster. If memberships must differ between clusters that share the same environment class and region, the naming convention needs an additional cluster discriminator or separate groups.
 
