@@ -6,6 +6,7 @@ rbac:
   policy: |
     g, system:cluster-admins, role:admin
     g, cluster-admins, role:admin
+    g, platform-admins, role:admin
     g, OCP-NONPROD-IA-FARMERS-ADMIN, proj:farmers:admins
     g, OCP-NONPROD-IA-FARMERS-DEVELOPER, proj:farmers:developers
     g, OCP-NONPROD-IA-FARMERS-VIEWER, proj:farmers:members
