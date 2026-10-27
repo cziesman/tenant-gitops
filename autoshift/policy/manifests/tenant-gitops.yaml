@@ -1,0 +1,168 @@
+object-templates-raw: |
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: argoproj.io/v1alpha1
+      kind: AppProject
+      metadata:
+        name: farmers
+        namespace: openshift-gitops
+      spec:
+        description: Farmers tenant applications
+        sourceRepos:
+          - 'https://github.com/gitops-examples/*'
+        destinations:
+          - server: https://kubernetes.default.svc
+            namespace: farmers-dev
+        clusterResourceWhitelist: []
+        namespaceResourceWhitelist:
+          - group: ""
+            kind: ConfigMap
+          - group: ""
+            kind: Service
+          - group: ""
+            kind: ServiceAccount
+          - group: ""
+            kind: Secret
+          - group: apps
+            kind: Deployment
+          - group: apps
+            kind: ReplicaSet
+          - group: networking.k8s.io
+            kind: Ingress
+        roles:
+          - name: admins
+            description: Farmers tenant administrators
+            groups:
+              - OCP-NONPROD-IA-FARMERS-ADMIN
+            policies:
+              - p, proj:farmers:admins, applications, *, farmers/*, allow
+          - name: developers
+            description: View and sync Farmers applications
+            groups:
+              - OCP-NONPROD-IA-FARMERS-DEVELOPER
+            policies:
+              - p, proj:farmers:developers, applications, get, farmers/*, allow
+              - p, proj:farmers:developers, applications, sync, farmers/*, allow
+          - name: members
+            description: Read-only access to Farmers applications
+            groups:
+              - OCP-NONPROD-IA-FARMERS-VIEWER
+            policies:
+              - p, proj:farmers:members, applications, get, farmers/*, allow
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: argoproj.io/v1alpha1
+      kind: AppProject
+      metadata:
+        name: ranchers
+        namespace: openshift-gitops
+      spec:
+        description: Ranchers tenant applications
+        sourceRepos:
+          - 'https://github.com/gitops-examples/*'
+        destinations:
+          - server: https://kubernetes.default.svc
+            namespace: ranchers-dev
+        clusterResourceWhitelist: []
+        namespaceResourceWhitelist:
+          - group: ""
+            kind: ConfigMap
+          - group: ""
+            kind: Service
+          - group: ""
+            kind: ServiceAccount
+          - group: ""
+            kind: Secret
+          - group: apps
+            kind: Deployment
+          - group: apps
+            kind: ReplicaSet
+          - group: networking.k8s.io
+            kind: Ingress
+        roles:
+          - name: admins
+            description: Ranchers tenant administrators
+            groups:
+              - OCP-NONPROD-WY-RANCHERS-ADMIN
+            policies:
+              - p, proj:ranchers:admins, applications, *, ranchers/*, allow
+          - name: developers
+            description: View and sync Ranchers applications
+            groups:
+              - OCP-NONPROD-WY-RANCHERS-DEVELOPER
+            policies:
+              - p, proj:ranchers:developers, applications, get, ranchers/*, allow
+              - p, proj:ranchers:developers, applications, sync, ranchers/*, allow
+          - name: members
+            description: Read-only access to Ranchers applications
+            groups:
+              - OCP-NONPROD-WY-RANCHERS-VIEWER
+            policies:
+              - p, proj:ranchers:members, applications, get, ranchers/*, allow
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        name: bgd-farmers
+        namespace: openshift-gitops
+      spec:
+        project: farmers
+        source:
+          repoURL: https://github.com/gitops-examples/getting-started.git
+          targetRevision: HEAD
+          path: bgd/base
+        destination:
+          server: https://kubernetes.default.svc
+          namespace: farmers-dev
+        syncPolicy:
+          automated:
+            prune: true
+            selfHeal: true
+          syncOptions:
+            - CreateNamespace=true
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        name: bgd-ranchers
+        namespace: openshift-gitops
+      spec:
+        project: ranchers
+        source:
+          repoURL: https://github.com/gitops-examples/getting-started.git
+          targetRevision: HEAD
+          path: bgd/base
+        destination:
+          server: https://kubernetes.default.svc
+          namespace: ranchers-dev
+        syncPolicy:
+          automated:
+            prune: true
+            selfHeal: true
+          syncOptions:
+            - CreateNamespace=true
+  # Partial musthave on spec.rbac is intended to merge these fields into the
+  # existing operator-managed ArgoCD CR, not replace the CR itself.
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: argoproj.io/v1beta1
+      kind: ArgoCD
+      metadata:
+        name: openshift-gitops
+        namespace: openshift-gitops
+      spec:
+        rbac:
+          defaultPolicy: ""
+          scopes: '[groups]'
+          policy: |
+            g, system:cluster-admins, role:admin
+            g, cluster-admins, role:admin
+            g, platform-admins, role:admin
+            g, OCP-NONPROD-IA-FARMERS-ADMIN, proj:farmers:admins
+            g, OCP-NONPROD-IA-FARMERS-DEVELOPER, proj:farmers:developers
+            g, OCP-NONPROD-IA-FARMERS-VIEWER, proj:farmers:members
+            g, OCP-NONPROD-WY-RANCHERS-ADMIN, proj:ranchers:admins
+            g, OCP-NONPROD-WY-RANCHERS-DEVELOPER, proj:ranchers:developers
+            g, OCP-NONPROD-WY-RANCHERS-VIEWER, proj:ranchers:members

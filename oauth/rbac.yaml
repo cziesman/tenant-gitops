@@ -1,0 +1,96 @@
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: OCP-NONPROD-USA-PLATFORM-ADMIN
+users:
+  - admin1
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: OCP-NONPROD-IA-FARMERS-ADMIN
+users:
+  - alice
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: OCP-NONPROD-IA-FARMERS-VIEWER
+users:
+  - ernie
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: OCP-NONPROD-IA-FARMERS-DEVELOPER
+users:
+  - bob
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: OCP-NONPROD-WY-RANCHERS-ADMIN
+users:
+  - carol
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: OCP-NONPROD-WY-RANCHERS-VIEWER
+users:
+  - fay
+---
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: OCP-NONPROD-WY-RANCHERS-DEVELOPER
+users:
+  - dave
+---
+apiVersion: user.openshift.io/v1
+kind: User
+metadata:
+  name: alice
+fullName: Alice Example
+---
+apiVersion: user.openshift.io/v1
+kind: User
+metadata:
+  name: bob
+fullName: Bob Example
+---
+apiVersion: user.openshift.io/v1
+kind: User
+metadata:
+  name: admin1
+fullName: Platform Administrator
+---
+apiVersion: user.openshift.io/v1
+kind: User
+metadata:
+  name: carol
+fullName: Carol Example
+---
+apiVersion: user.openshift.io/v1
+kind: User
+metadata:
+  name: dave
+fullName: Dave Example
+---
+apiVersion: user.openshift.io/v1
+kind: User
+metadata:
+  name: ernie
+fullName: Ernie Example
+---
+apiVersion: user.openshift.io/v1
+kind: User
+metadata:
+  name: fay
+fullName: Fay Example
+---
+apiVersion: user.openshift.io/v1
+kind: User
+metadata:
+  name: admin1
+fullName: Admin Example
